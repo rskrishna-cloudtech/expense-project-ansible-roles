@@ -1,0 +1,7 @@
+# This is a common main file to call each role based on the component.
+
+- name: "Configure {{ component }} server"
+  hosts: "{{ component }}"
+  become: yes
+  roles:
+  - "{{ component }}"
