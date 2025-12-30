@@ -32,6 +32,8 @@
 
 # These above three steps are common for every role hence we kept them in a common role and importing that role to make the reusability.
 - name: Importing the common role.
+  tags:
+  - deployment
   ansible.builtin.import_role:
     name: common
     tasks_from: main.yml
@@ -44,7 +46,7 @@
 
     # Notifying the handler created in handler/ folder to restart the nginx service only when there is any changes in the expense.conf.j2 file.
     notify:
-      - restart nginx
+    - restart nginx
 
 # # Restarting the nginx service.
 # - name: Restart nginx service.

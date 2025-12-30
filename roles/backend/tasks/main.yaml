@@ -36,23 +36,31 @@
 #     dest: /app
 #     remote_src: yes
 
-# These above three steps are common for every role hence we kept them in a common role and importing that role to make the reusability.
+# These above three steps are common for every role hence we kept them in a common role and importing that role to make the reusability. Attached a tag named deployment to run only these tasks when we run with the tag as deployment.
 - name: Importing the common role.
+  tags:
+    - deployment
   ansible.builtin.import_role:
     name: common
     tasks_from: main.yml
 
-# Installing the npm dependencies in /app folder. By default, we are not int he /app folder hence we are changing the directory by chdir: /app.
+# Installing the npm dependencies in /app folder. By default, we are not int he /app folder hence we are changing the directory by chdir: /app. Attached a tag named deployment to run only these tasks when we run with the tag as deployment.
 - name: Install the npm dependencies in /app folder.
+  tags:
+  - deployment
   ansible.builtin.command: npm install
   args:
     chdir: /app
 
-# Creating backend.service.j2 template file in templates folder and configure the DB host details in the file and copy that file to /etc/systemd/system/ directory.
+# Creating backend.service.j2 template file in templates folder and configure the DB host details in the file and copy that file to /etc/systemd/system/ directory. Added a notify handler to restart the daemon service when .service file is changed.
 - name: Copying the backend.service.j2 file to /etc/systemd/system/
   ansible.builtin.template:
     src: backend.service.j2
     dest: /etc/systemd/system/backend.service
+
+    # Notifying the handler created in handler/ folder to reload the daemon service only when there is any changes in the .service file.
+    notify:
+    - Reload the daemon service.
 
 # Installing the mysql client.
 - name: Install the mysql client.
@@ -78,14 +86,16 @@
     state: import
     name: all
 
-# Reloading the daemon service.
-- name: Reload the daemon service.
-  ansible.builtin.systemd_service:
-    daemon_reload: true
+# # Reloading the daemon service.
+# - name: Reload the daemon service.
+#   ansible.builtin.systemd_service:
+#     daemon_reload: true
 
-# Starting an Enabling the backend service.
+# Starting an Enabling the backend service. Attached a tag named deployment to run only these tasks when we run with the tag as deployment.
 - name: Start and Enable the backend service.
+  tags:
+  - deployment
   ansible.builtin.service:
     name: backend
-    state: started
+    state: restarted
     enabled: yes
