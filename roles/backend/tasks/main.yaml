@@ -60,7 +60,7 @@
 
   # Notifying the handler created in handler/ folder to reload the daemon service only when there is any changes in the .service file.
   notify:
-  - Reload the daemon service.
+    - Reload the daemon service
 
 # Installing the mysql client.
 - name: Install the mysql client.
