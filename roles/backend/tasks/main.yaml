@@ -47,7 +47,7 @@
 # Installing the npm dependencies in /app folder. By default, we are not int he /app folder hence we are changing the directory by chdir: /app. Attached a tag named deployment to run only these tasks when we run with the tag as deployment.
 - name: Install the npm dependencies in /app folder.
   tags:
-  - deployment
+    - deployment
   ansible.builtin.command: npm install
   args:
     chdir: /app
@@ -60,7 +60,7 @@
 
   # Notifying the handler created in handler/ folder to reload the daemon service only when there is any changes in the .service file.
   notify:
-    - Reload the daemon service
+    - Reload the daemon service.
 
 # Installing the mysql client.
 - name: Install the mysql client.
@@ -94,7 +94,7 @@
 # Starting an Enabling the backend service. Attached a tag named deployment to run only these tasks when we run with the tag as deployment.
 - name: Start and Enable the backend service.
   tags:
-  - deployment
+    - deployment
   ansible.builtin.service:
     name: backend
     state: restarted
