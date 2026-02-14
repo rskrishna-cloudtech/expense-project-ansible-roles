@@ -58,9 +58,9 @@
     src: backend.service.j2
     dest: /etc/systemd/system/backend.service
 
-    # Notifying the handler created in handler/ folder to reload the daemon service only when there is any changes in the .service file.
-    notify:
-    - Reload the daemon service.
+  # Notifying the handler created in handler/ folder to reload the daemon service only when there is any changes in the .service file.
+  notify:
+  - Reload the daemon service.
 
 # Installing the mysql client.
 - name: Install the mysql client.
