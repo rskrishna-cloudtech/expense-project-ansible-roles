@@ -44,8 +44,8 @@
     src: expense.conf.j2
     dest: /etc/nginx/default.d/expense.conf
 
-    # Notifying the handler created in handler/ folder to restart the nginx service only when there is any changes in the expense.conf.j2 file.
-    notify:
+  # Notifying the handler created in handler/ folder to restart the nginx service only when there is any changes in the expense.conf.j2 file.
+  notify:
     - restart nginx
 
 # # Restarting the nginx service.
